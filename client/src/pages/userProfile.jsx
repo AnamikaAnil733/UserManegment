@@ -13,7 +13,7 @@ function Profile() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  // ✅ Fetch user and profile image
+  //  Fetch user and profile image
   useEffect(() => {
     const fetchUser = async () => {
       try {
@@ -27,7 +27,7 @@ function Profile() {
     fetchUser();
   }, []);
 
-  // ✅ Handle image selection
+  //  Handle image selection
   const handleImageChange = (e) => {
     const file = e.target.files[0];
     setImage(file);
@@ -38,13 +38,13 @@ function Profile() {
     }
   };
 
-  // ✅ Handle logout
+  // Handle logout
   const handleLogout = () => {
     dispatch(logout());
     navigate('/login');
   };
 
-  // ✅ Upload to Cloudinary and save to DB
+  // Upload to Cloudinary and save to DB
   const handleUpload = async (e) => {
     e.preventDefault();
     if (!image) return alert("Please select an image");
@@ -62,7 +62,7 @@ function Profile() {
       const data = await res.json();
 
       if (data.secure_url) {
-        // ✅ Save Cloudinary image to backend
+        //  Save Cloudinary image to backend
         await axios.put("/users/update-profile-image", {
           image: data.secure_url,
         });

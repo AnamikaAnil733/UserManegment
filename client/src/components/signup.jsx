@@ -96,6 +96,17 @@ function Register() {
       >
         Submit
       </button>
+      <p className="text-base text-gray-700">
+      If you already have account,{" "}
+      <span
+        onClick={() => navigate("/login")}
+        className="text-blue-600 cursor-pointer font-semibold hover:text-blue-800"
+      >
+        Login here
+      </span>
+      .
+    </p>
+
     </form>
   </div>
 </div>
