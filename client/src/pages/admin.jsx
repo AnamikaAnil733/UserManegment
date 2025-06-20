@@ -1,11 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import axios from "../utils/axiosInstance";
+import { logout } from '../auth/authslice';
+import { useDispatch } from 'react-redux';
 
 function AdminPage() {
   const [users, setUsers] = useState([]);
   const [search, setSearch] = useState('');
   const [editingUserId, setEditingUserId] = useState(null);
   const [editedNames, setEditedNames] = useState({});
+
+  const dispatch= useDispatch()
 
   useEffect(() => {
     fetchUsers();
@@ -21,6 +25,11 @@ function AdminPage() {
     });
     setEditedNames(names);
   };
+
+   const handleLogout = () => {
+      dispatch(logout());
+      navigate('/login');
+    };
 
   const deleteUser = async (id) => {
     const confirmDelete = window.confirm("Are you sure you want to delete this user?");
@@ -129,8 +138,17 @@ function AdminPage() {
             )}
           </tbody>
         </table>
+        <div>
+        <button
+          onClick={handleLogout}
+          className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-md shadow"
+        >
+          Logout
+        </button>
+        </div>
       </div>
     </div>
+    
   );
 }
 
