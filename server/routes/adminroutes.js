@@ -16,7 +16,7 @@ adminRoute.get('/users', protect, async (req, res) => {
 
 adminRoute.delete('/:id',protect,deleteUser)
 
-// PUT /users/:id/update-name
+
 adminRoute.patch('/update/:id', protect, async (req, res) => {
   if (req.user.role !== 'admin') {
     return res.status(403).json({ message: "Not authorized" });
