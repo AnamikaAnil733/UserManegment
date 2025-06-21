@@ -1,10 +1,11 @@
 import express from 'express';
-import { signup,signin } from "../controllers/authcontrollers.js";
+import { signup,signin ,refreshAccessToken} from "../controllers/authcontrollers.js";
 const router = express.Router()
 
 
 router.post('/register', signup) 
-router.post('/login', signin)     
+router.post('/login', signin)    
+router.post('/refresh-token', refreshAccessToken); 
 
 
 

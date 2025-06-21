@@ -3,11 +3,13 @@ import axios from '../utils/axiosInstance';
 import { logout } from '../auth/authslice';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
+
 
 function Profile() {
   const [user, setUser] = useState({});
   const [image, setImage] = useState(null);
-  const [previewUrl, setPreviewUrl] = useState(null);
+  const [previewUrl, setPreviewUrl] = useState("");
   const [cloudinaryUrl, setCloudinaryUrl] = useState("");
 
   const dispatch = useDispatch();
@@ -42,12 +44,13 @@ function Profile() {
   const handleLogout = () => {
     dispatch(logout());
     navigate('/login');
+    toast.success("Logout Sucessfully");
   };
 
   // Upload to Cloudinary and save to DB
   const handleUpload = async (e) => {
     e.preventDefault();
-    if (!image) return alert("Please select an image");
+    if (!image) return toast.error("Please select an Image");
 
     const formData = new FormData();
     formData.append("file", image);
@@ -70,69 +73,70 @@ function Profile() {
         setCloudinaryUrl(data.secure_url);
         setPreviewUrl(null);
         setImage(null);
-        alert("Upload successful!");
+        toast.success(" upload Successful");
       } else {
+
         throw new Error("Invalid Cloudinary response");
       }
     } catch (err) {
       console.error("Upload failed:", err);
-      alert("Image upload failed.");
+      toast.error("Image upload failed.");
+      
     }
   };
 
   return (
-    <div className="p-8 max-w-md mx-auto bg-white rounded-lg shadow-md mt-10">
-      <h2 className="text-2xl font-bold text-center text-blue-600 mb-4">
-        Welcome, {user.name}
-      </h2>
-      <p className="text-center text-gray-600 mb-4">Email: {user.email}</p>
-
-      <div className="flex justify-center mb-6">
-        <img
-          src={cloudinaryUrl}
-          alt=""
-          className="w-36 h-36 rounded-full object-cover border-2 border-blue-400"
-        />
-      </div>
-
-      <form onSubmit={handleUpload} className="flex flex-col items-center space-y-4">
-        <input
-          type="file"
-          accept="image/*"
-          onChange={handleImageChange}
-          className="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4
-                     file:rounded-full file:border-0 file:text-sm file:font-semibold
-                     file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100"
-        />
-
-        {previewUrl && (
-          <div className="mb-4">
-            <p className="text-sm text-gray-500 text-center">Image Preview:</p>
-            <img
-              src={previewUrl}
-              alt="Preview"
-              className="w-36 h-36 object-cover rounded-full border mx-auto"
-            />
-          </div>
-        )}
-
-        <button
-          type="submit"
-          className="bg-blue-500 text-white px-6 py-2 rounded-full hover:bg-blue-600 transition"
-        >
-          Upload Your Profile Photo
-        </button>
-      </form>
-
-      <div className="flex justify-center mt-6">
-        <button
-          onClick={handleLogout}
-          className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-md shadow"
-        >
-          Logout
-        </button>
-      </div>
+    <>
+    <button
+    onClick={handleLogout}
+    className="absolute top-4 left-4 bg-rose-400 hover:bg-rose-500 text-white px-4 py-1 rounded-md shadow-md transition duration-300 text-sm"
+  >
+    ⬅ Logout
+  </button>
+    <div className="relative p-8 max-w-md mx-auto bg-white bg-opacity-70 backdrop-blur-xl rounded-3xl shadow-2xl mt-10 border border-purple-200">
+    {/* Logout button - top-left */}
+  
+  
+    <h2 className="text-2xl font-bold text-center text-purple-700 mb-4">Welcome, {user.name}</h2>
+    <p className="text-center text-purple-500 mb-6">Email: {user.email}</p>
+  
+    <div className="flex justify-center mb-6">
+      <img
+        src={cloudinaryUrl || "/photo.png"}
+        alt="Profile"
+        className="w-36 h-36 rounded-full object-cover border-4 border-pink-300 shadow-lg hover:scale-105 transition duration-300"
+      />
     </div>
+  
+    <form onSubmit={handleUpload} className="flex flex-col items-center space-y-6">
+      <input
+        id="fileInput"
+        type="file"
+        accept="image/*"
+        onChange={handleImageChange}
+        className="hidden"
+      />
+  
+      <label
+        htmlFor="fileInput"
+        className="cursor-pointer px-6 py-2 bg-gradient-to-r from-pink-200 to-purple-200 text-purple-800 rounded-full shadow-md hover:from-pink-300 hover:to-purple-300 hover:scale-105 transition duration-300 font-semibold"
+      >
+        Choose Profile Photo
+      </label>
+  
+    
+  
+      <button
+        type="submit"
+        className="bg-gradient-to-r from-purple-400 to-pink-400 text-white px-8 py-2 rounded-full shadow-lg hover:from-purple-500 hover:to-pink-500 hover:scale-105 transition duration-300 font-semibold"
+      >
+       Upload
+      </button>
+    </form>
+  </div>
+  
+  
+  </>
   );
 }
 
