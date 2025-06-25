@@ -47,7 +47,7 @@ function Register() {
         role,
       });
       dispatch(loginSucess(res.data));
-      navigate(role === "admin" ? "/admin" : "/profile");
+      navigate(role === "admin" ? "/admin" : "/profile",{replace:true});
     } catch (err) {
       console.error("Signup error:", err);
       Swal.fire({
@@ -133,7 +133,7 @@ function Register() {
           <p className="text-sm text-center text-purple-500">
             Already have an account?{" "}
             <span
-              onClick={() => navigate("/login")}
+              onClick={() => navigate("/login",{replace:true})}
               className="text-purple-700 font-semibold cursor-pointer hover:underline"
             >
               Login here

@@ -93,7 +93,7 @@ function CreateUser() {
     
     <div className="flex items-center justify-center min-h-screen bg-gradient-to-br from-pink-100 to-purple-100 px-4">
            <button
-        onClick={()=>navigate("/admin")}
+        onClick={()=>navigate("/admin",{replace:true})}
         className="absolute top-4 left-4 bg-rose-400 hover:bg-rose-500 text-white px-4 py-1 rounded-md shadow-md transition duration-300 text-sm"
       >
         ⬅ back

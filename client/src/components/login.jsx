@@ -38,10 +38,10 @@ function Login() {
       try {
         const res = await axios.post("/auth/login", { email, password });
     
-        // ✅ Save access token to localStorage
+       
         localStorage.setItem("token", res.data.accessToken);
     
-        // ✅ Dispatch login info to Redux
+       
         dispatch(
           loginSucess({
             token: res.data.accessToken,
@@ -54,10 +54,10 @@ function Login() {
         //Navigate based on role
         if (res.data.user.role === "admin") {
           toast.success("Login Successful");
-          navigate("/admin");
+          navigate("/admin",{replace:true});
         } else {
           toast.success("Login Successful");
-          navigate("/profile");
+          navigate("/profile",{replace:true});
         }
     
       } catch (err) {
@@ -104,7 +104,7 @@ function Login() {
             <p className="text-sm text-center text-purple-500">
               If you don't have an account,{" "}
               <span
-                onClick={() => navigate("/signup")}
+                onClick={() => navigate("/signup",{replace:true})}
                 className="text-purple-700 font-semibold cursor-pointer hover:underline"
               >
                 sign up here

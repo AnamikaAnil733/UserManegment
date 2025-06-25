@@ -2,7 +2,7 @@ import User from '../models/user.js';
 import bcrypt from 'bcryptjs';
 
 export const getCurrentUser = async (req, res) => {
-    console.log("req.user inside /me route:", req.user); // ✅ add this
+    console.log("req.user inside /me route:", req.user);
   
     if (!req.user) {
       return res.status(401).json({ message: "User not found" });

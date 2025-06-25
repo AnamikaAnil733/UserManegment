@@ -11,24 +11,29 @@ function AdminPage() {
   const [search, setSearch] = useState('');
   const [editingUserId, setEditingUserId] = useState(null);
   const [editedNames, setEditedNames] = useState({});
+  const [currentPage, setCurrentPage] = useState(1);
+const [totalPages, setTotalPages] = useState(1);
+
 
   const dispatch= useDispatch()
   const navigate = useNavigate()
 
   useEffect(() => {
-    fetchUsers();
-  }, []);
+    fetchUsers(currentPage);
+  }, [currentPage]);
+  
 
-  const fetchUsers = async () => {
-    const res = await axios.get('/admin/users');
-    setUsers(res.data);
-
-    const names = {};
-    res.data.forEach((u) => {
-      names[u._id] = u.name;
-    });
-    setEditedNames(names);
+  const fetchUsers = async (page = 1) => {
+    try {
+      const res = await axios.get(`/admin/users?page=${page}&limit=5`);
+      setUsers(res.data.users);
+      setTotalPages(res.data.totalPages);
+      setCurrentPage(res.data.currentPage);
+    } catch (error) {
+      toast.error("Failed to fetch users");
+    }
   };
+  
 
    const handleLogout = () => {
       dispatch(logout());
@@ -177,6 +182,28 @@ function AdminPage() {
       </div>
     
     </div>
+    <div className="flex justify-center mt-4 space-x-3">
+  <button
+    onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
+    disabled={currentPage === 1}
+    className="bg-purple-300 px-3 py-1 rounded disabled:opacity-50"
+  >
+    ⬅
+  </button>
+
+  <span className="text-purple-700 font-semibold">
+    Page {currentPage} of {totalPages}
+  </span>
+
+  <button
+    onClick={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages))}
+    disabled={currentPage === totalPages}
+    className="bg-purple-300 px-3 py-1 rounded disabled:opacity-50"
+  >
+    ➡
+  </button>
+</div>
+
   </div>
   
     

@@ -43,7 +43,7 @@ function Profile() {
   // Handle logout
   const handleLogout = () => {
     dispatch(logout());
-    navigate('/login');
+    navigate('/login',{replace:true});
     toast.success("Logout Sucessfully");
   };
 
@@ -122,7 +122,7 @@ function Profile() {
       </form>
   
       <button  
-        type="submit"        onClick={() => navigate('/edit')} 
+        type="submit"        onClick={() => navigate('/edit',{replace:true})} 
         className="bg-gradient-to-r from-purple-400 to-pink-400 text-white px-8 py-2 rounded-full shadow-lg hover:from-purple-500 hover:to-pink-500 hover:scale-105 transition duration-300 font-semibold"
        >
        Edit

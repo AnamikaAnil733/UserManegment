@@ -8,18 +8,35 @@ import { isAdmin } from '../middlewares/isadmin.js';
 
 const adminRoute = express.Router();
 
-adminRoute.get('/users', protect, async (req, res) => {
-  
-  const users = await User.find({});
-  if (!users) return res.status(404).json({ message: "Users not found" });
-  res.json(users);
+adminRoute.get('/users', protect,isAdmin, async (req, res) => {
+  try {
+    const page = parseInt(req.query.page) || 1;
+    const limit = parseInt(req.query.limit) || 5;
+    const skip = (page - 1) * limit;
+
+    const totalUsers = await User.countDocuments({ role: 'user' });
+    const totalPages = Math.ceil(totalUsers / limit);
+
+    const users = await User.find({ role: 'user' })
+      .skip(skip)
+      .limit(limit)
+      .select("-password");
+
+    res.status(200).json({
+      users,
+      totalPages,
+      currentPage: page,
+    });
+  } catch (error) {
+    res.status(500).json({ message: "Server Error" });
+  }
 });
 
 
-adminRoute.delete('/:id',protect,deleteUser)
+adminRoute.delete('/:id',protect,isAdmin,deleteUser)
 
 
-adminRoute.patch('/update/:id', protect, async (req, res) => {
+adminRoute.patch('/update/:id', protect,isAdmin, async (req, res) => {
   if (req.user.role !== 'admin') {
     return res.status(403).json({ message: "Not authorized" });
   }
@@ -36,7 +53,7 @@ adminRoute.patch('/update/:id', protect, async (req, res) => {
 });
 
 
-adminRoute.post('/create-user', protect, createUserByAdmin);
+adminRoute.post('/create-user', protect,isAdmin, createUserByAdmin);
 
 
 

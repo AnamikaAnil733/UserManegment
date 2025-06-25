@@ -44,7 +44,7 @@ function EditProfile() {
 
   const handleLogout = () => {
     dispatch(logout());
-    navigate('/login');
+    navigate('/login',{replace:true});
     toast.success("Logout Successfully");
   };
 
@@ -94,7 +94,7 @@ function EditProfile() {
       });
       setUser(res.data);
       toast.success("Profile updated successfully");
-      navigate("/profile");
+      navigate("/profile",{replace:true});
     } catch (error) {
       console.error("Failed to update profile:", error);
       toast.error("Update failed");
