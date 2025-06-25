@@ -11,13 +11,21 @@ const adminRoute = express.Router();
 adminRoute.get('/users', protect,isAdmin, async (req, res) => {
   try {
     const page = parseInt(req.query.page) || 1;
-    const limit = parseInt(req.query.limit) || 5;
+    const limit = parseInt(req.query.limit) || 7;
+    const search = req.query.search || '';
+    const query = {
+      role: 'user',
+    };
+
+    if (search) {
+      query.name = { $regex: search, $options: 'i' };
+    }
     const skip = (page - 1) * limit;
 
-    const totalUsers = await User.countDocuments({ role: 'user' });
+    const totalUsers = await User.countDocuments(query);
     const totalPages = Math.ceil(totalUsers / limit);
 
-    const users = await User.find({ role: 'user' })
+    const users = await User.find(query)
       .skip(skip)
       .limit(limit)
       .select("-password");

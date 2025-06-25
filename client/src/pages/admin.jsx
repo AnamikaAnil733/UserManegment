@@ -20,12 +20,13 @@ const [totalPages, setTotalPages] = useState(1);
 
   useEffect(() => {
     fetchUsers(currentPage);
-  }, [currentPage]);
+  }, [currentPage, search]);
+  
   
 
   const fetchUsers = async (page = 1) => {
     try {
-      const res = await axios.get(`/admin/users?page=${page}&limit=5`);
+      const res = await axios.get(`/admin/users?search=${search}&page=${page}&limit=7`);
       setUsers(res.data.users);
       setTotalPages(res.data.totalPages);
       setCurrentPage(res.data.currentPage);
@@ -79,9 +80,7 @@ const [totalPages, setTotalPages] = useState(1);
     }
   };
 
-  const filteredUsers = users.filter((u) =>
-    u.name.toLowerCase().includes(search.toLowerCase())
-  );
+ 
 
   return (
     <div className="p-8 bg-gradient-to-br from-pink-100 to-purple-100 min-h-screen">
@@ -98,7 +97,11 @@ const [totalPages, setTotalPages] = useState(1);
         type="text"
         placeholder="Search user by name"
         value={search}
-        onChange={(e) => setSearch(e.target.value)}
+        onChange={(e) => {
+          setSearch(e.target.value);
+          setCurrentPage(1); 
+        }}
+        
         className="w-full px-4 py-3 bg-white border border-pink-200 rounded-xl shadow-sm focus:outline-none focus:ring-2 focus:ring-pink-300 transition"
       />
     </div>
@@ -114,7 +117,7 @@ const [totalPages, setTotalPages] = useState(1);
           </tr>
         </thead>
         <tbody>
-          {filteredUsers.map((u) =>
+          {users.map((u) =>
             u.role === 'user' ? (
               <tr key={u._id} className="border-b border-purple-100 hover:bg-pink-50 transition">
                 <td className="py-3 px-6">
