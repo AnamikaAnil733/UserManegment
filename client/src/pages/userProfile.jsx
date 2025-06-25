@@ -94,7 +94,7 @@ function Profile() {
     ⬅ Logout
   </button>
     <div className="relative p-8 max-w-md mx-auto bg-white bg-opacity-70 backdrop-blur-xl rounded-3xl shadow-2xl mt-10 border border-purple-200">
-    {/* Logout button - top-left */}
+   
   
   
     <h2 className="text-2xl font-bold text-center text-purple-700 mb-4">Welcome, {user.name}</h2>
@@ -117,22 +117,17 @@ function Profile() {
         className="hidden"
       />
   
-      <label
-        htmlFor="fileInput"
-        className="cursor-pointer px-6 py-2 bg-gradient-to-r from-pink-200 to-purple-200 text-purple-800 rounded-full shadow-md hover:from-pink-300 hover:to-purple-300 hover:scale-105 transition duration-300 font-semibold"
-      >
-        Choose Profile Photo
-      </label>
+   
   
-    
+      </form>
   
-      <button
-        type="submit"
+      <button  
+        type="submit"        onClick={() => navigate('/edit')} 
         className="bg-gradient-to-r from-purple-400 to-pink-400 text-white px-8 py-2 rounded-full shadow-lg hover:from-purple-500 hover:to-pink-500 hover:scale-105 transition duration-300 font-semibold"
-      >
-       Upload
+       >
+       Edit
       </button>
-    </form>
+  
   </div>
   
   

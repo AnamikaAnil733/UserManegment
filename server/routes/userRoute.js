@@ -1,7 +1,7 @@
 // routes/userRoutes.js
 import express from 'express';
 import { protect } from "../middlewares/authmiddlerwars.js";
-import { uploadProfileImage } from '../controllers/usercontrollers.js';
+import { uploadProfileImage,updateProfile } from '../controllers/usercontrollers.js';
 
 import User from '../models/user.js';
 
@@ -17,6 +17,7 @@ router.get('/me', protect, async (req, res) => {
 
 
 router.put('/update-profile-image', protect, uploadProfileImage);
+router.put('/update', protect, updateProfile);
 
 
 

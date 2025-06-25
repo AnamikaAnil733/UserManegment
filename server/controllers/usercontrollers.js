@@ -59,3 +59,35 @@ export const uploadProfileImage = async (req, res) => {
   }
 };
 
+
+export const updateProfile = async (req, res) => {
+  const userId = req.user.id;
+  const { name, email } = req.body;
+
+  if (!name || !email) {
+    return res.status(400).json({ message: "Name and email are required" });
+  }
+
+  try {
+    const existingUser = await User.findById(userId);
+    if (!existingUser) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    // Optional: Check if new email already exists (for unique email constraint)
+    const emailExists = await User.findOne({ email });
+    if (emailExists && emailExists._id.toString() !== userId) {
+      return res.status(409).json({ message: "Email already in use" });
+    }
+
+    existingUser.name = name;
+    existingUser.email = email;
+
+    const updatedUser = await existingUser.save();
+
+    res.status(200).json(updatedUser);
+  } catch (err) {
+    console.error("Error in updateProfile:", err);
+    res.status(500).json({ message: "Failed to update profile", error: err.message });
+  }
+};
