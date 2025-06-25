@@ -3,6 +3,8 @@ import express from 'express';
 import { protect } from "../middlewares/authmiddlerwars.js";
 import User from '../models/user.js';
 import {deleteUser} from "../controllers/usercontrollers.js"
+import {createUserByAdmin} from "../controllers/usercontrollers.js"
+import { isAdmin } from '../middlewares/isadmin.js';
 
 const adminRoute = express.Router();
 
@@ -32,6 +34,9 @@ adminRoute.patch('/update/:id', protect, async (req, res) => {
     res.status(500).json({ error: "Update failed" });
   }
 });
+
+
+adminRoute.post('/create-user', protect, createUserByAdmin);
 
 
 

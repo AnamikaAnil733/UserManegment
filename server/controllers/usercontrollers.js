@@ -1,4 +1,5 @@
 import User from '../models/user.js';
+import bcrypt from 'bcryptjs';
 
 export const getCurrentUser = async (req, res) => {
     console.log("req.user inside /me route:", req.user); // ✅ add this
@@ -89,5 +90,38 @@ export const updateProfile = async (req, res) => {
   } catch (err) {
     console.error("Error in updateProfile:", err);
     res.status(500).json({ message: "Failed to update profile", error: err.message });
+  }
+};
+
+
+
+
+
+export const createUserByAdmin = async (req, res) => {
+  const { name, email, password, role } = req.body;
+
+  if (!name || !email || !password) {
+    return res.status(400).json({ message: "All fields are required" });
+  }
+
+  try {
+    const existingUser = await User.findOne({ email });
+    if (existingUser) {
+      return res.status(409).json({ message: "User already exists" });
+    }
+
+    const hashedPassword = await bcrypt.hash(password, 10);
+
+    const newUser = await User.create({
+      name,
+      email,
+      password: hashedPassword,
+      role: role || 'user',
+    });
+
+    res.status(201).json({ message: "User created", user: newUser });
+  } catch (err) {
+    console.error("Admin user creation failed:", err);
+    res.status(500).json({ message: "Server error" });
   }
 };

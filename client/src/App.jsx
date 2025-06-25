@@ -5,6 +5,7 @@ import { BrowserRouter,Routes,Route } from 'react-router-dom'
 import AdminPage from './pages/admin.jsx'
 import Profile from './pages/userProfile.jsx'
 import EditProfile from './components/editProfile.jsx'
+import CreateUser from './components/CreateUser.jsx'
 
 import PrivateRoute from './components/protectedroute.jsx'
 
@@ -33,6 +34,12 @@ function App() {
   <Route path="/admin" element={
     <PrivateRoute allowedRoles={['admin']}>
       <AdminPage />
+    </PrivateRoute>
+  } />
+
+<Route path="/createuser" element={
+    <PrivateRoute allowedRoles={['admin']}>
+      <CreateUser />
     </PrivateRoute>
   } />
 

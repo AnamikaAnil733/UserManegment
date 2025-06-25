@@ -111,7 +111,7 @@ function EditProfile() {
       </button>
 
       <div className="relative p-8 max-w-md mx-auto bg-white bg-opacity-70 backdrop-blur-xl rounded-3xl shadow-2xl mt-10 border border-purple-200">
-        <h2 className="text-2xl font-bold text-center text-purple-700 mb-4">Welcome, {user.name}</h2>
+        <h2 className="text-2xl font-bold text-center text-purple-700 mb-4">Edit Profile</h2>
 
         <div className="flex justify-center mb-6">
           <img
@@ -145,7 +145,7 @@ function EditProfile() {
           </button>
         </form>
 
-        {/* Editable Fields */}
+        
         <div className="mt-6 flex flex-col gap-4">
           <input
             type="text"

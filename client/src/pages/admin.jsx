@@ -4,6 +4,7 @@ import { logout } from '../auth/authslice';
 import { useDispatch } from 'react-redux';
 import { toast } from 'react-toastify';
 import Swal from 'sweetalert2';
+import { useNavigate } from 'react-router-dom';
 
 function AdminPage() {
   const [users, setUsers] = useState([]);
@@ -12,6 +13,7 @@ function AdminPage() {
   const [editedNames, setEditedNames] = useState({});
 
   const dispatch= useDispatch()
+  const navigate = useNavigate()
 
   useEffect(() => {
     fetchUsers();
@@ -78,6 +80,12 @@ function AdminPage() {
 
   return (
     <div className="p-8 bg-gradient-to-br from-pink-100 to-purple-100 min-h-screen">
+      <button
+        onClick={()=>navigate('/createuser')}
+        className="absolute top-4 right-4 bg-rose-400 hover:bg-rose-500 text-white px-4 py-1 rounded-md shadow-md transition duration-300 text-sm"
+      >
+        Create User
+      </button>
     <h2 className="text-3xl font-bold mb-8 text-center text-purple-700">Admin Dashboard</h2>
   
     <div className="mb-6 max-w-md mx-auto">
@@ -158,8 +166,8 @@ function AdminPage() {
           )}
         </tbody>
       </table>
-  
-      <div className="p-4 text-center">
+
+      <div className="p-4 text-right">
         <button
           onClick={handleLogout}
           className="bg-rose-400 hover:bg-rose-500 text-white px-6 py-2 mt-4 rounded-xl shadow-md transition"
@@ -167,6 +175,7 @@ function AdminPage() {
           Logout
         </button>
       </div>
+    
     </div>
   </div>
   
