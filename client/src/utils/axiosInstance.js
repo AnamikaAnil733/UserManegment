@@ -1,5 +1,5 @@
 import axios from 'axios';
-import {store} from "../store/store.js"; // adjust if needed
+import {store} from "../store/store.js";
 import { loginSucess, logout } from '../auth/authslice';
 
 const instance = axios.create({

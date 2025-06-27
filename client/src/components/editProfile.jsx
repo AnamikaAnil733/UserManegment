@@ -85,7 +85,7 @@ function EditProfile() {
     }
   };
 
-  // ✅ Handle updating name and email
+  // handle updating name and email
   const handleSaveChanges = async () => {
     try {
       const res = await axios.put('/users/update', {
